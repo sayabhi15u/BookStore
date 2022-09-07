@@ -80,14 +80,31 @@ namespace BookStore.Areas.Admin.Controllers
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            var objFromDb = _unitOfWork.CoverType.Get(id);
-            if (objFromDb == null)
+            bool prodExist = _unitOfWork.Product.GetAll(x => x.CoverTypeId != id).Any();
+            
+            if (!prodExist)
+            //var objFromDb = _unitOfWork.CoverType.Get(id);
+            //var objFromDb1 = _unitOfWork.Product.Get(id);
+
+            //if (objFromDb == null)
+            //{
+            //    return Json(new { success = false, message = "Error while deleting" });
+            //}
+
+            //else if (objFromDb.Id == objFromDb1.CoverTypeId)
             {
+                var coverType = _unitOfWork.CoverType.Get(id);
+                _unitOfWork.CoverType.Remove(coverType);
+                _unitOfWork.Save();
+                return Json(new { success = true, message = "Delete Successful" });
+
+
+            }
+            else
+            {
+
                 return Json(new { success = false, message = "Error while deleting" });
             }
-            _unitOfWork.CoverType.Remove(objFromDb);
-            _unitOfWork.Save();
-            return Json(new { success = true, message = "Delete Successful" });
 
         }
 

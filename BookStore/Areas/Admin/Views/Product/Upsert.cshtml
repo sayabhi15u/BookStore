@@ -143,6 +143,8 @@
             <div class="col-3 offset-1 pt-4">
                 <img src="@Model.Product.ImageUrl" width="100%" style="border-radius:5px; border:1px solid #bbb9b9" />
             </div>
+
+
         }
     </div>
 </form>
@@ -151,22 +153,23 @@
     <partial name="_ValidationScriptsPartial" />
     <script src="https://cdn.tiny.cloud/1/n94ifuzvl80pchikopiwgz2esrw8n28dwcywvpejlqrregfp/tinymce/5/tinymce.min.js"></script>
 
+
     <script>
 
-    tinymce.init({
-        selector: 'textarea',
-        plugins: 'lists',
-        menubar: 'file edit format'
-    });
+        tinymce.init({
+            selector: 'textarea',
+            plugins: 'lists',
+            menubar: 'file edit format'
+        });
 
 
-    function validateInput() {
-        if (document.getElementById("uploadBox").value == "") {
-            swal("Error", "Please select an image", "error");
-            return false;
-        }
-        return true;
-    };
+        function validateInput() {
+            if (document.getElementById("uploadBox").value == "") {
+                swal("Error", "Please select an image", "error");
+                return false;
+            }
+            return true;
+        };
 
     </script>
 
