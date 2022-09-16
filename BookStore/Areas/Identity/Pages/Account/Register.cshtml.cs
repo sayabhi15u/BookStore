@@ -72,11 +72,22 @@ namespace BookStore.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Required]
+            [MaxLength(20)]
             public string Name { get; set; }
+            [Required]
+            [MaxLength(50)]
             public string StreetAddress { get; set; }
+            [Required]
+            [MaxLength(20)]
             public string City { get; set; }
+            [Required]
+            [MaxLength(20)]
             public string State { get; set; }
+            [Required(ErrorMessage = "PostalCode is required")]
+            [RegularExpression("^[1-9][0-9]{5}$", ErrorMessage = "Please enter valid PostalCode")]
             public string PostalCode { get; set; }
+            [Required(ErrorMessage = "Mobile no. is required")]
+            [RegularExpression("^(?!0+$)(\\+\\d{1,3}[- ]?)?(?!0+$)\\d{10,15}$", ErrorMessage = "Please enter valid phone no.")]
             public string PhoneNumber { get; set; }
             public int? CompanyId { get; set; }
             public string Role { get; set; }
@@ -97,7 +108,7 @@ namespace BookStore.Areas.Identity.Pages.Account
                     Text = i.Name,
                     Value = i.Id.ToString()
                 }),
-                RoleList = _roleManager.Roles.Where(u => u.Name != SD.Role_User_Indi).Select(x => x.Name).Select(i => new SelectListItem
+                RoleList = _roleManager.Roles.Where(u => u.Name != SD.Role_User).Select(x => x.Name).Select(i => new SelectListItem
                 {
                     Text = i,
                     Value = i
@@ -135,28 +146,24 @@ namespace BookStore.Areas.Identity.Pages.Account
                     {
                         await _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin));
                     }
-                    if (!await _roleManager.RoleExistsAsync(SD.Role_Employee))
+                    if (!await _roleManager.RoleExistsAsync(SD.Role_Comp_Employee))
                     {
-                        await _roleManager.CreateAsync(new IdentityRole(SD.Role_Employee));
+                        await _roleManager.CreateAsync(new IdentityRole(SD.Role_Comp_Employee));
                     }
-                    if (!await _roleManager.RoleExistsAsync(SD.Role_User_Comp))
+                    if (!await _roleManager.RoleExistsAsync(SD.Role_User))
                     {
-                        await _roleManager.CreateAsync(new IdentityRole(SD.Role_User_Comp));
-                    }
-                    if (!await _roleManager.RoleExistsAsync(SD.Role_User_Indi))
-                    {
-                        await _roleManager.CreateAsync(new IdentityRole(SD.Role_User_Indi));
+                        await _roleManager.CreateAsync(new IdentityRole(SD.Role_User));
                     }
 
                     if (user.Role == null)
                     {
-                        await _userManager.AddToRoleAsync(user, SD.Role_User_Indi);
+                        await _userManager.AddToRoleAsync(user, SD.Role_User);
                     }
                     else
                     {
                         if (user.CompanyId > 0)
                         {
-                            await _userManager.AddToRoleAsync(user, SD.Role_User_Comp);
+                            await _userManager.AddToRoleAsync(user, SD.Role_Comp_Employee);
                         }
                         await _userManager.AddToRoleAsync(user, user.Role);
                     }
