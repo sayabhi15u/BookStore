@@ -209,7 +209,7 @@ namespace BookStore.Areas.Identity.Pages.Account
                     Text = i.Name,
                     Value = i.Id.ToString()
                 }),
-                RoleList = _roleManager.Roles.Where(u => u.Name != SD.Role_User_Indi).Select(x => x.Name).Select(i => new SelectListItem
+                RoleList = _roleManager.Roles.Where(u => u.Name != SD.Role_User).Select(x => x.Name).Select(i => new SelectListItem
                 {
                     Text = i,
                     Value = i
