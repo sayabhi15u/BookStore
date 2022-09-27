@@ -20,6 +20,7 @@ using Microsoft.Extensions.Logging;
 
 namespace BookStore.Areas.Identity.Pages.Account
 {
+    //[Authorize(Roles = SD.Role_Admin)]
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
@@ -98,6 +99,7 @@ namespace BookStore.Areas.Identity.Pages.Account
         }
 
         public async Task OnGetAsync(string returnUrl = null)
+        
         {
             ReturnUrl = returnUrl;
 
@@ -120,7 +122,7 @@ namespace BookStore.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl = returnUrl ?? Url.Content("/Admin/User");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
